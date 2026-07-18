@@ -1,0 +1,46 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+  --background: 222 47% 7%;
+  --foreground: 210 40% 96%;
+  --muted: 224 35% 16%;
+  --muted-foreground: 215 20% 66%;
+  --border: 215 25% 27%;
+  --input: 223 26% 18%;
+  --ring: 210 100% 67%;
+  --primary: 258 88% 66%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 175 70% 43%;
+  --secondary-foreground: 0 0% 100%;
+  --accent: 338 100% 62%;
+  --accent-foreground: 0 0% 100%;
+  --success: 145 63% 42%;
+  --warning: 43 96% 56%;
+  --danger: 0 84% 60%;
+  --info: 191 95% 44%;
+}
+
+* {
+  @apply box-border;
+}
+
+html {
+  @apply scroll-smooth;
+}
+
+body {
+  @apply min-h-screen bg-[radial-gradient(circle_at_top_left,_rgba(118,74,255,0.28),_transparent_30%),linear-gradient(135deg,_#060816_0%,_#0b1120_45%,_#111827_100%)] text-foreground antialiased;
+}
+
+::selection {
+  @apply bg-primary/40 text-white;
+}
+
+@layer base {
+  h1,h2,h3,h4,h5,h6 {
+    @apply tracking-tight;
+  }
+}
