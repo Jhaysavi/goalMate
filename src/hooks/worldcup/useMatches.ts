@@ -5,6 +5,7 @@ import { getMatches } from '@/repositories/worldcup/matches-repo';
 import type { WorldCupMatchList } from '@/types/worldcup';
 import { getMockWorldCupMatches } from './useWorldCupMocks';
 
+const SHOULD_USE_MOCKS = process.env.NEXT_PUBLIC_USE_MOCKS === 'true';
 
 export function useMatches(params: { date?: string } = {}) {
   return useQuery<WorldCupMatchList>({
@@ -12,11 +13,14 @@ export function useMatches(params: { date?: string } = {}) {
     queryFn: async ({ signal }) => {
       try {
         return await getMatches({ date: params.date, signal });
-      } catch {
-        // Offline/early integration fallback
-        return getMockWorldCupMatches({ date: params.date });
+      } catch (e) {
+        if (SHOULD_USE_MOCKS) {
+          return getMockWorldCupMatches({ date: params.date });
+        }
+        throw e;
       }
     },
   });
 }
+
 

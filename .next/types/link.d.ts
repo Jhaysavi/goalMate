@@ -39,9 +39,10 @@ declare namespace __next_route_internal_types__ {
     | `/friends`
     | `/friends-rankings`
     | `/live-matches`
-    | `/notifications`
     | `/missions`
+    | `/notifications`
     | `/profile`
+    | `/protected`
     | `/rooms`
     | `/settings`
     | `/story-mode`

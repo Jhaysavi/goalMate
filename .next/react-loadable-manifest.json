@@ -1,1 +1,6 @@
-{}
+{
+  "providers/auth-provider.tsx -> @/repositories/auth/password-hashing": {
+    "id": "providers/auth-provider.tsx -> @/repositories/auth/password-hashing",
+    "files": []
+  }
+}

@@ -2,6 +2,8 @@ import type { Metadata } from 'next';
 import { Inter, Space_Grotesk } from 'next/font/google';
 import './globals.css';
 import { QueryClientProviderWrapper } from '@/providers/query-client-provider';
+import { AuthProviderWrapper } from '@/providers/auth-provider';
+
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans' });
 const spaceGrotesk = Space_Grotesk({ subsets: ['latin'], variable: '--font-heading' });
@@ -15,7 +17,10 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${inter.variable} ${spaceGrotesk.variable} font-sans`}>
-        <QueryClientProviderWrapper>{children}</QueryClientProviderWrapper>
+        <AuthProviderWrapper>
+          <QueryClientProviderWrapper>{children}</QueryClientProviderWrapper>
+        </AuthProviderWrapper>
+
       </body>
     </html>
   );

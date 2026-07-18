@@ -1,13 +1,13 @@
 'use client';
 
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { Accessibility, ArrowRight, BrainCircuit, CheckCircle2, Eye, EyeOff, ShieldCheck, Sparkles, Volume2 } from 'lucide-react';
+import { Accessibility, BrainCircuit, CheckCircle2, ShieldCheck, Sparkles, Volume2 } from 'lucide-react';
+import Link from 'next/link';
 import { AppShell } from '@/components/layout/app-shell';
-import { Button } from '@/components/ui/button';
+import { AuthForm } from '@/components/auth/auth-form';
+import { useRouter } from 'next/navigation';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
+import type { FC } from 'react';
 
 const accessibilityOptions = [
   { id: 'high-contrast', label: 'High contrast', description: 'Sharper clarity and focus', icon: Accessibility },
@@ -16,21 +16,12 @@ const accessibilityOptions = [
   { id: 'assistive-support', label: 'Assistive tools', description: 'Better motion and input support', icon: ShieldCheck },
 ];
 
-const highlights = [
-  'Live fan rooms and real-time stories',
-  'AI insights that stay clear and simple',
-  'Accessibility controls built in from day one',
-];
-
 export default function AuthPage() {
   const router = useRouter();
   const [mode, setMode] = useState<'signin' | 'signup'>('signin');
-  const [showPassword, setShowPassword] = useState(false);
-  const [preferences, setPreferences] = useState<string[]>(['high-contrast']);
 
-  const togglePreference = (id: string) => {
-    setPreferences((current) => (current.includes(id) ? current.filter((item) => item !== id) : [...current, id]));
-  };
+  // Kept for UI parity; AuthForm is responsible for actual auth.
+  const [preferences] = useState<string[]>(['high-contrast']);
 
   return (
     <AppShell>
@@ -41,22 +32,29 @@ export default function AuthPage() {
             <div className="space-y-6">
               <div className="inline-flex items-center gap-2 rounded-full border border-cyan-400/20 bg-cyan-500/10 px-3 py-1 text-sm font-medium text-cyan-200">
                 <Sparkles className="h-4 w-4" />
-                Premium football experience
+                Premium FIFA World Cup experience
               </div>
 
               <div className="space-y-3">
                 <h1 className="text-3xl font-semibold tracking-tight text-white sm:text-4xl lg:text-5xl">
-                  Welcome to a football experience designed around you.
+                  Welcome to GoalMates.
                 </h1>
                 <p className="max-w-2xl text-lg leading-8 text-slate-300">
-                  Sign in to follow live stories, join fan rooms, and personalize every matchday moment with a calm and accessible experience.
+                  Sign in to follow live matches, complete match-centric missions, and level up your Football IQ.
                 </p>
               </div>
 
               <div className="rounded-[24px] border border-white/10 bg-white/5 p-4 backdrop-blur">
                 <div className="flex flex-wrap gap-2">
-                  {highlights.map((item) => (
-                    <span key={item} className="rounded-full border border-white/10 bg-slate-900/60 px-3 py-2 text-sm text-slate-200">
+                  {[
+                    'Live fan rooms and real-time stories',
+                    'Match predictions powered by TxLINE',
+                    'Accessibility controls built in from day one',
+                  ].map((item) => (
+                    <span
+                      key={item}
+                      className="rounded-full border border-white/10 bg-slate-900/60 px-3 py-2 text-sm text-slate-200"
+                    >
                       {item}
                     </span>
                   ))}
@@ -100,110 +98,55 @@ export default function AuthPage() {
                   <CardTitle>{mode === 'signin' ? 'Sign in to continue' : 'Set up your account'}</CardTitle>
                 </div>
               </CardHeader>
+
               <CardContent>
-                <form
-                  className="space-y-4"
-                  onSubmit={(event) => {
-                    event.preventDefault();
-                    router.push('/dashboard');
-                  }}
-                >
-                  {mode === 'signup' && (
-                    <div className="grid gap-4 sm:grid-cols-2">
-                      <label className="space-y-2 text-sm text-slate-200">
-                        <span>First name</span>
-                        <Input placeholder="Ava" />
-                      </label>
-                      <label className="space-y-2 text-sm text-slate-200">
-                        <span>Last name</span>
-                        <Input placeholder="Mendes" />
-                      </label>
+                <AuthForm mode={mode} onModeChange={setMode} onDone={() => router.push('/dashboard')} />
+
+                {mode === 'signup' && (
+                  <div className="mt-4 rounded-[24px] border border-white/10 bg-white/5 p-4">
+                    <div className="flex items-start justify-between gap-3">
+                      <div>
+                        <p className="text-sm font-semibold text-white">Accessibility preferences</p>
+                        <p className="mt-1 text-sm text-slate-400">Choose the options that make the experience feel calmer and clearer.</p>
+                      </div>
+                      <span className="rounded-full bg-cyan-500/15 px-3 py-1 text-xs font-semibold text-cyan-300">
+                        {preferences.length} selected
+                      </span>
                     </div>
-                  )}
 
-                  <label className="space-y-2 text-sm text-slate-200">
-                    <span>Email</span>
-                    <Input type="email" placeholder="you@example.com" />
-                  </label>
-
-                  <label className="space-y-2 text-sm text-slate-200">
-                    <span>Password</span>
-                    <div className="relative">
-                      <Input type={showPassword ? 'text' : 'password'} placeholder={mode === 'signup' ? 'Create a secure password' : 'Enter your password'} />
-                      <button
-                        type="button"
-                        onClick={() => setShowPassword((value) => !value)}
-                        className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full p-1 text-slate-400 transition hover:bg-white/10 hover:text-white"
-                        aria-label={showPassword ? 'Hide password' : 'Show password'}
-                      >
-                        {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-                      </button>
+                    <div className="mt-4 grid gap-2 sm:grid-cols-2">
+                      {accessibilityOptions.map((option) => {
+                        const Icon = option.icon;
+                        const isSelected = preferences.includes(option.id);
+                        return (
+                          <div
+                            key={option.id}
+                            className={`rounded-2xl border px-3 py-3 text-left transition ${
+                              isSelected
+                                ? 'border-cyan-400/40 bg-cyan-500/10 text-white'
+                                : 'border-white/10 bg-transparent text-slate-300 hover:bg-white/10'
+                            }`}
+                          >
+                            <div className="flex items-center gap-2">
+                              <Icon className={`h-4 w-4 ${isSelected ? 'text-cyan-300' : 'text-slate-400'}`} />
+                              <span className="text-sm font-semibold">{option.label}</span>
+                            </div>
+                            <p className="mt-1 text-xs text-slate-400">{option.description}</p>
+                          </div>
+                        );
+                      })}
                     </div>
-                  </label>
-
-                  {mode === 'signup' && (
-                    <label className="space-y-2 text-sm text-slate-200">
-                      <span>Confirm password</span>
-                      <Input type="password" placeholder="Re-enter your password" />
-                    </label>
-                  )}
-
-                  <div className="flex items-center justify-between gap-3 text-sm">
-                    <label className="flex items-center gap-2 text-slate-400">
-                      <input type="checkbox" className="h-4 w-4 rounded border-white/15 bg-white/10" defaultChecked />
-                      Keep me signed in
-                    </label>
-                    {mode === 'signin' && (
-                      <Link href="/" className="font-medium text-cyan-300 transition hover:text-cyan-200">
-                        Forgot password?
-                      </Link>
-                    )}
                   </div>
+                )}
 
-                  {mode === 'signup' && (
-                    <div className="rounded-[24px] border border-white/10 bg-white/5 p-4">
-                      <div className="flex items-start justify-between gap-3">
-                        <div>
-                          <p className="text-sm font-semibold text-white">Accessibility preferences</p>
-                          <p className="mt-1 text-sm text-slate-400">Choose the options that make the experience feel calmer and clearer.</p>
-                        </div>
-                        <span className="rounded-full bg-cyan-500/15 px-3 py-1 text-xs font-semibold text-cyan-300">{preferences.length} selected</span>
-                      </div>
-                      <div className="mt-4 grid gap-2 sm:grid-cols-2">
-                        {accessibilityOptions.map((option) => {
-                          const Icon = option.icon;
-                          const isSelected = preferences.includes(option.id);
-                          return (
-                            <button
-                              key={option.id}
-                              type="button"
-                              onClick={() => togglePreference(option.id)}
-                              className={`rounded-2xl border px-3 py-3 text-left transition ${isSelected ? 'border-cyan-400/40 bg-cyan-500/10 text-white' : 'border-white/10 bg-transparent text-slate-300 hover:bg-white/10'}`}
-                            >
-                              <div className="flex items-center gap-2">
-                                <Icon className={`h-4 w-4 ${isSelected ? 'text-cyan-300' : 'text-slate-400'}`} />
-                                <span className="text-sm font-semibold">{option.label}</span>
-                              </div>
-                              <p className="mt-1 text-xs text-slate-400">{option.description}</p>
-                            </button>
-                          );
-                        })}
-                      </div>
-                    </div>
-                  )}
-
-                  <Button className="w-full" size="lg">
-                    {mode === 'signin' ? 'Sign in' : 'Create account'}
-                    <ArrowRight className="h-4 w-4" />
-                  </Button>
-                </form>
-
-                <p className="mt-4 text-sm text-slate-400">
-                  {mode === 'signin' ? 'New here?' : 'Already have an account?'}{' '}
-                  <button type="button" onClick={() => setMode(mode === 'signin' ? 'signup' : 'signin')} className="font-medium text-cyan-300 transition hover:text-cyan-200">
-                    {mode === 'signin' ? 'Create an account' : 'Sign in instead'}
-                  </button>
-                </p>
+                {mode === 'signin' && (
+                  <p className="mt-4 text-sm text-slate-400">
+                    Forgot your password?{' '}
+                    <Link href="/" className="font-medium text-cyan-300 transition hover:text-cyan-200">
+                      Reset locally (MVP)
+                    </Link>
+                  </p>
+                )}
               </CardContent>
             </Card>
           </div>
@@ -212,3 +155,4 @@ export default function AuthPage() {
     </AppShell>
   );
 }
+
