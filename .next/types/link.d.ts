@@ -32,14 +32,15 @@ declare namespace __next_route_internal_types__ {
     | `/`
     | `/accessibility`
     | `/ai-companion`
+    | `/api/health`
     | `/auth`
     | `/dashboard`
     | `/football-iq`
     | `/friends`
     | `/friends-rankings`
     | `/live-matches`
-    | `/missions`
     | `/notifications`
+    | `/missions`
     | `/profile`
     | `/rooms`
     | `/settings`

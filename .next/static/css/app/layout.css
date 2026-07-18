@@ -704,14 +704,23 @@ video {
 .h-2 {
   height: 0.5rem;
 }
+.h-3 {
+  height: 0.75rem;
+}
 .h-4 {
   height: 1rem;
 }
 .h-5 {
   height: 1.25rem;
 }
+.h-6 {
+  height: 1.5rem;
+}
 .h-9 {
   height: 2.25rem;
+}
+.h-\[22px\] {
+  height: 22px;
 }
 .h-\[calc\(100vh-2rem\)\] {
   height: calc(100vh - 2rem);
@@ -729,17 +738,35 @@ video {
 .w-10 {
   width: 2.5rem;
 }
+.w-20 {
+  width: 5rem;
+}
+.w-24 {
+  width: 6rem;
+}
 .w-4 {
   width: 1rem;
+}
+.w-40 {
+  width: 10rem;
 }
 .w-5 {
   width: 1.25rem;
 }
+.w-56 {
+  width: 14rem;
+}
 .w-64 {
   width: 16rem;
 }
+.w-72 {
+  width: 18rem;
+}
 .w-9 {
   width: 2.25rem;
+}
+.w-\[22px\] {
+  width: 22px;
 }
 .w-\[88\%\] {
   width: 88%;
@@ -774,6 +801,15 @@ video {
 .-translate-y-1\/2 {
   --tw-translate-y: -50%;
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+@keyframes pulse {
+
+  50% {
+    opacity: .5;
+  }
+}
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 .flex-col {
   flex-direction: column;
@@ -924,6 +960,9 @@ video {
 }
 .bg-rose-500\/15 {
   background-color: rgb(244 63 94 / 0.15);
+}
+.bg-slate-500\/20 {
+  background-color: rgb(100 116 139 / 0.2);
 }
 .bg-slate-800 {
   --tw-bg-opacity: 1;
@@ -1123,6 +1162,9 @@ video {
   font-size: 2.25rem;
   line-height: 2.5rem;
 }
+.text-\[10px\] {
+  font-size: 10px;
+}
 .text-base {
   font-size: 1rem;
   line-height: 1.5rem;
@@ -1134,6 +1176,10 @@ video {
 .text-sm {
   font-size: 0.875rem;
   line-height: 1.25rem;
+}
+.text-xl {
+  font-size: 1.25rem;
+  line-height: 1.75rem;
 }
 .text-xs {
   font-size: 0.75rem;
@@ -1208,6 +1254,10 @@ video {
   --tw-text-opacity: 1;
   color: rgb(148 163 184 / var(--tw-text-opacity, 1));
 }
+.text-slate-500 {
+  --tw-text-opacity: 1;
+  color: rgb(100 116 139 / var(--tw-text-opacity, 1));
+}
 .text-violet-300 {
   --tw-text-opacity: 1;
   color: rgb(196 181 253 / var(--tw-text-opacity, 1));
@@ -1215,6 +1265,9 @@ video {
 .text-white {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity, 1));
+}
+.text-white\/70 {
+  color: rgb(255 255 255 / 0.7);
 }
 .shadow-2xl {
   --tw-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25);
@@ -1576,6 +1629,10 @@ body {
 
   .lg\:grid-cols-\[1\.3fr_0\.7fr\] {
     grid-template-columns: 1.3fr 0.7fr;
+  }
+
+  .lg\:grid-cols-\[1\.4fr_0\.6fr\] {
+    grid-template-columns: 1.4fr 0.6fr;
   }
 
   .lg\:grid-cols-\[1fr_0\.8fr\] {

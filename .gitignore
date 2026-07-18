@@ -44,3 +44,4 @@ coverage/
 *.swp
 *~
 
+node_modules

@@ -1,4 +1,6 @@
 {
-  "/ai-companion/page": "app/ai-companion/page.js",
-  "/page": "app/page.js"
+  "/page": "app/page.js",
+  "/dashboard/page": "app/dashboard/page.js",
+  "/live-matches/page": "app/live-matches/page.js",
+  "/auth/page": "app/auth/page.js"
 }

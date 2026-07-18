@@ -59,7 +59,7 @@ export default function DashboardPage() {
                       <Badge className="bg-emerald-500/15 text-emerald-300">{match.status}</Badge>
                     </div>
                     <p className="mt-2 text-lg font-semibold text-white">{match.homeTeam} vs {match.awayTeam}</p>
-                    <p className="mt-2 text-sm text-slate-400">{match.minute}' • {match.stadium}</p>
+                  <p className="mt-2 text-sm text-slate-400">{match.minute}&apos; • {match.stadium}</p>
                   </div>
                 ))}
               </CardContent>
