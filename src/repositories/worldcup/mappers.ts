@@ -64,4 +64,60 @@ export function mapTxlineSingleMatchToDomain(raw: unknown): WorldCupMatch {
   };
 }
 
+// TxLINE fixtures snapshot => GoalMates WorldCupMatch
+// Fixture fields per provided doc:
+// { FixtureId, Participant1, Participant2, StartTime, Competition, GameState }
+
+export function mapTxlineFixtureToMatch(raw: unknown): WorldCupMatch {
+  const r = asRecord(raw);
+
+  const fixtureId = r.FixtureId ?? r.fixtureId ?? r.FixtureID;
+  const participant1 = r.Participant1 ?? r.HomeTeam ?? r.participant1;
+  const participant2 = r.Participant2 ?? r.AwayTeam ?? r.participant2;
+
+  const startTime = r.StartTime ?? r.startTime;
+
+  const gameState = toStringOrUndefined(r.GameState ?? r.gameState) ?? 'UPCOMING';
+
+  // GoalMates match model uses status 'LIVE' | 'UPCOMING' | 'FINISHED'
+  // TxLINE game state mapping is defensive.
+  const status =
+    gameState.toUpperCase().includes('LIVE') || gameState.toUpperCase().includes('IN_PROGRESS')
+      ? 'LIVE'
+      : gameState.toUpperCase().includes('FINISH') || gameState.toUpperCase().includes('FULLTIME')
+        ? 'FINISHED'
+        : 'UPCOMING';
+
+  return {
+    id: String(fixtureId ?? ''),
+    competition: 'FIFA World Cup',
+    stage: 'GROUP',
+    group: undefined,
+    kickoffAt: typeof startTime === 'string' ? startTime : toStringOrUndefined(startTime),
+    status,
+    homeTeam: {
+      id: String(r.Participant1Id ?? r.Participant1id ?? ''),
+      name: toStringOrUndefined(participant1 ?? r.Participant1) ?? '',
+      logoUrl: undefined,
+    },
+    awayTeam: {
+      id: String(r.Participant2Id ?? r.Participant2id ?? ''),
+      name: toStringOrUndefined(participant2 ?? r.Participant2) ?? '',
+      logoUrl: undefined,
+    },
+    score: {
+      home: toNumberOrZero(r.ScoreHome ?? 0),
+      away: toNumberOrZero(r.ScoreAway ?? 0),
+    },
+    venue: undefined,
+  };
+}
+
+export function mapTxlineFixturesToMatchList(fixtures: unknown[]): WorldCupMatchList {
+  return {
+    matches: Array.isArray(fixtures) ? fixtures.map(mapTxlineFixtureToMatch) : [],
+  };
+}
+
+
 

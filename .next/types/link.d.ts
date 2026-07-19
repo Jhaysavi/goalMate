@@ -33,6 +33,13 @@ declare namespace __next_route_internal_types__ {
     | `/accessibility`
     | `/ai-companion`
     | `/api/health`
+    | `/api/txline/auth/start`
+    | `/api/txline/auth/status`
+    | `/api/txline/debug`
+    | `/api/txline/fixtures`
+    | `/api/txline/guest/start`
+    | `/api/txline/odds-stream`
+    | `/api/txline/dev/activate`
     | `/auth`
     | `/dashboard`
     | `/football-iq`

@@ -5,9 +5,10 @@ node_modules/
 .next/
 out/
 
-# Environment variables
+# Environment variables (IMPORTANT - keep secrets out)
 .env
 .env.*
+!.env.example
 
 # Logs
 npm-debug.log*
@@ -16,27 +17,23 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-# Build outputs
+# Build / TypeScript
 *.tsbuildinfo
 
-# Misc
-.DS_Store
-Thumbs.db
+# Test / Coverage
+coverage/
+
+# Local development data
+*.local
+*.sqlite
+*.db
+
+# Cache
+.cache/
+.next/cache/
 
 # Vercel
 .vercel/
-
-# Husky
-.husky/_/
-
-# Local cache
-.cache/
-
-# Coverage
-coverage/
-
-# Git
-.git/
 
 # IDE
 .vscode/
@@ -44,4 +41,26 @@ coverage/
 *.swp
 *~
 
-node_modules
+# OS files
+.DS_Store
+Thumbs.db
+
+# Git
+.git/
+
+# Husky
+.husky/_/
+
+# Temporary files
+*.tmp
+*.temp
+
+# Secrets / keys
+*.pem
+*.key
+*.crt
+
+# Wallet files
+wallet.json
+keypair.json
+id.json
